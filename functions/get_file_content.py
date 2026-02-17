@@ -1,4 +1,6 @@
 import os
+from google.genai import types
+
 def get_file_content(working_directory, file_path):
     absolute_working_dir = os.path.abspath(working_directory)
     absolute_file_path = os.path.normpath(os.path.join(absolute_working_dir, file_path))
@@ -19,3 +21,17 @@ def get_file_content(working_directory, file_path):
     
     return
 
+schema_get_file_content = types.FunctionDeclaration(
+    name="get_file_content",
+    description="Opens and reads files in a specified directory relative to the working directory",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "file_path": types.Schema(
+                type=types.Type.STRING,
+                description="Path to the file that is intended to read. Should be relative to the working directory"
+            ),
+        },
+        required=["file_path"],
+    ),
+)
