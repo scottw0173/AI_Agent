@@ -1,7 +1,7 @@
 import os
 from google.genai import types
 
-def get_file_content(working_directory, file_path):
+def get_file_content(working_directory, file_path, verbose=False):
     absolute_working_dir = os.path.abspath(working_directory)
     absolute_file_path = os.path.normpath(os.path.join(absolute_working_dir, file_path))
     valid_target_file = os.path.commonpath([absolute_working_dir, absolute_file_path]) == absolute_working_dir
@@ -16,10 +16,11 @@ def get_file_content(working_directory, file_path):
         file_content_string = f.read(MAX_CHARS)
         if f.read(1):
             file_content_string += f'[...File "{file_path}" truncated at {MAX_CHARS} characters]'
-    print(file_content_string)
+    if verbose:
+        print(file_content_string)
 
     
-    return
+    return file_content_string
 
 schema_get_file_content = types.FunctionDeclaration(
     name="get_file_content",
